@@ -19,10 +19,10 @@ Clone the repository and unzip the contents. Open your computer terminal and cha
 
 ## GUI Preview  
 
-<!---
-[alt text](https://github.com/glennsvel90/Navy_Weather_Data_Analyzer/blob/master/GUI_preview.PNG "GUI Preview")
 
--->!
+[alt text](https://raw.githubusercontent.com/glennsvel90/image-plagiarizing-detector/master/GuiPreview.PNG "GUI Preview")
+
+
 ## Methodology
 
 The main function that does the bulk of the work is the Match Template Function. It takes a smaller image and finds where it closely resembles a larger original image. The limitations of just using this function is that the runtime for large images tends to be large. Runtime can become 10 times faster, if
