@@ -2,7 +2,7 @@ import os
 import numpy as np
 from math import sqrt
 from time import time
-from queue import queue
+from queue import Queue
 from tkinter import *
 from tkinter import ttk, filedialog, messagebox
 from PIL import Image, ImageChops
@@ -55,7 +55,7 @@ class FindPlagiarized:
         self.path_entry.delete(0, END)
         self.path_entry.insert(0, path)
 
-    def search callback(self):
+    def search_callback(self):
         self.start_time = time()
 
         try:
