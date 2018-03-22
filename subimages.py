@@ -8,8 +8,8 @@ from tkinter import ttk, filedialog, messagebox
 from PIL import Image, ImageChops
 from skimage.feature import match_template
 
-MAX_WIDTH = 650
-MAX_HEIGHT = 650
+MAX_WIDTH = 640
+MAX_HEIGHT = 640
 RMS_THRESHOLD = 50
 
 class FindPlagiarized:
@@ -60,7 +60,7 @@ class FindPlagiarized:
 
         try:
             self.path = self.path_entry.get()
-            images = list(entry for entry in os.listdir(self.path) if entry.endswith('.jpg','.png'))
+            images = list(entry for entry in os.listdir(self.path) if entry.endswith('.jpg'))
         except:
             messagebox.showerror(title = 'Invalid Directory',
                                  message = 'Invalid Search Directory:\n' + self.path)
@@ -101,15 +101,15 @@ class FindPlagiarized:
         if (temp_img.size[0] < orig_img.size[0]) and (temp_img.size[1] < orig_img.size[1]):
 
             # find out if images need to be resized smaller
-            if (orig_img[0] > MAX_WIDTH) or (orig_img.size[1] > orig_img.size[1] > MAX_HEIGHT):
+            if (orig_img.size[0] > MAX_WIDTH) or (orig_img.size[1] > MAX_HEIGHT):
                 # calculate ratio for resizing
                 ratio = min(MAX_WIDTH/float(orig_img.size[0]),
                             MAX_HEIGHT/float(orig_img.size[1]))
 
                 # resize images based on ratio
                 orig_img = orig_img.resize((int(ratio*orig_img.size[0]),
-                                                int(ratio*orig_image.size[1])),
-                                                Image.ANTIALIAS)
+                                            int(ratio*orig_img.size[1])),
+                                            Image.ANTIALIAS)
                 temp_img = temp_img.resize((int(ratio*temp_img.size[0]),
                                             int(ratio*temp_img.size[1])),
                                             Image.ANTIALIAS)
@@ -181,5 +181,7 @@ class FindPlagiarized:
 
 def main():
     root = Tk()
-    FindSubset(root)
+    FindPlagiarized(root)
     root.mainloop()
+
+if __name__ == "__main__": main()
