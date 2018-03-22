@@ -40,12 +40,55 @@ class FindPlagiarized:
         self.results_table.heading('subset', text = 'Subset Image')
         self.results_table.column('subset', width = 200)
 
+        self.status_frame = ttk.Frame(self.master)
+        self.status_frame.pack(fill = BOTH, expand = True)
+
+        self.status_var = StringVar()
+        self.status_label = ttk.Label(self.status_frame, textvariable = self.status_var)
+
+        self.progress_var = DoubleVar()
+        self.progressbar = ttk.Progressbar(self.status_frame, mode = 'determinate',
+                                           variable = self.progress_var)
+
     def browse_callback(self):
         path = filedialog.askdirectory(initialdir = self.path_entry.get())
         self.path_entry.delete(0, END)
         self.path_entry.insert(0, path)
 
     def search callback(self):
+        self.start_time = time()
+
+        try:
+            self.path = self.path_entry.get()
+            images = list(entry for entry in os.listdir(self.path) if entry.endswith('.jpg','.png'))
+        except:
+            messagebox.showerror(title = 'Invalid Directory',
+                                 message = 'Invalid Search Directory:\n' + self.path)
+            return
+
+        if len(images) < 2:
+            messagebox.showerror(title = 'Not Enough Images',
+                                 message = 'Need at least 2 images to analyze.')
+            return
+
+        self.queue = Queue()
+        for i in images:
+            for j in images:
+                if i != j:
+                    self.queue.put((i, j))
+
+        self.results_table.grid_forget() #clears previous results
+        for item in self.results_table.get_children(''):
+            self.results_table.delete(item)
+
+        self.status_var.set('Beginning...')
+        self.status_label.pack(side = BOTTOM, fill = BOTH, expand = True)
+        self.progressbar.config(value = 0.0, maximum = self.queue.qsize())
+        self.progressbar.pack(side = BOTTOM, fill = BOTH, expand = True)
+        self.browse_button.state(['disabled'])
+        self.search_button.state(['disabled'])
+
+        self.master.after(10, self.process_queue)# enables the status  bar and progressbar to continuously update as program executes
 
     def process_queue(self):
         # get a pair of images to analyze. These pairs are tuples.
@@ -127,7 +170,14 @@ class FindPlagiarized:
         self.progressbar.step()
         self.status_var.set('Analyzed {} vs {} - {} pairs remaining...'.format(pair[0], pair[1], self.queue.qsize()))
 
-        if not self.queue.
+        if not self.queue.empty():
+            self.master.after(10, self.process_queue)
+        else:
+            self.progressbar.pack_forget()
+            self.browse_button.state(['!disabled'])
+            self.search_button.state(['!disabled'])
+            elapsed_time = time() - self.start_time
+            self.status_var.set('Done - Elapsed Time: {0:.2f} seconds'.format(elapsed_time))
 
 
 
