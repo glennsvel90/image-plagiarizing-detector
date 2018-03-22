@@ -179,23 +179,6 @@ class FindPlagiarized:
             elapsed_time = time() - self.start_time
             self.status_var.set('Done - Elapsed Time: {0:.2f} seconds'.format(elapsed_time))
 
-
-
-
-
-            # divide the sum of squares by the number of pixels in the image and takes the square root of that to get the RMS value
-
-
-
-
-
-
-
-
-
-
-
-
 def main():
     root = Tk()
     FindSubset(root)
