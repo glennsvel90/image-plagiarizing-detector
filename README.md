@@ -20,7 +20,7 @@ Clone the repository and unzip the contents. Open your computer terminal and cha
 ## GUI Preview  
 
 
-[alt text](https://github.com/glennsvel90/image-plagiarizing-detector/blob/master/GuiPreview.PNG "GUI Preview")
+![alt text](https://github.com/glennsvel90/image-plagiarizing-detector/blob/master/GuiPreview.PNG "GUI Preview")
 
 
 ## Methodology
