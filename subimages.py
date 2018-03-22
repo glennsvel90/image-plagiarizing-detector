@@ -8,15 +8,42 @@ from tkinter import ttk, filedialog, messagebox
 from PIL import Image, ImageChops
 from skimage.feature import match_template
 
-MAX_WIDTH = 640
-MAX_HEIGHT = 640
+MAX_WIDTH = 650
+MAX_HEIGHT = 650
 RMS_THRESHOLD = 50
 
-class FindSubset:
+class FindPlagiarized:
 
     def __init__(self, master):
+        self.master = master
+        self.master.title('Find Plagiarized Images')
+        self.master.resizable(False, False)
+
+        self.main_frame = ttk.Frame(self.master)
+        self.main_frame.pack(padx = 5, pady = 5) # put padding when packing
+
+        ttk.Label(self.main_frame, text = 'Search Directory:').grid(row = 0, column = 0, sticky = 'w')
+        self.path_entry = ttk.Entry(self.main_frame, width = 54)
+        self.path_entry.grid(row = 1, column = 0, sticky = 'e')
+        self.path_entry.insert(0, '.\\images') # make default search folder
+        self.browse_button = ttk.Button(self.main_frame, text = 'Browse...',
+                                        command = self.browse_callback)
+        self.browse_button.grid(row = 1, column =1, sticky = 'w')
+
+        self.search_button = ttk.Button(self.main_frame, text = 'Find Plagiarized Images',
+                                        command = self.search_callback)
+        self.search_button.grid(row = 2, column = 0, columnspan = 2)
+
+        self.results_table = ttk.Treeview(self.main_frame, column = ('subset'))
+        self.results_table.heading('#0', text = 'Original Image')
+        self.results_table.column('#0', width = 200)
+        self.results_table.heading('subset', text = 'Subset Image')
+        self.results_table.column('subset', width = 200)
 
     def browse_callback(self):
+        path = filedialog.askdirectory(initialdir = self.path_entry.get())
+        self.path_entry.delete(0, END)
+        self.path_entry.insert(0, path)
 
     def search callback(self):
 
@@ -81,7 +108,7 @@ class FindSubset:
             h_diff = ImageChops.difference(orig_sub_img, temp_img).histogram()
 
             # find the sum of squares for every set in the enumerate(h_diff). To do this, the color value is represented by the "index(idx) modulo 256."
-            #This would always result in a number between 0 and 255. Square the color value, and multiply that by the number of pixels in the image that 
+            #This would always result in a number between 0 and 255. Square the color value, and multiply that by the number of pixels in the image that
             # have that color value in that iteration. The number of pixels is the that iteration's h_diff value.
             sum_of_squares = sum(value * ((idx % 256) **2) for idx, value in enumerate(h_diff))
 
