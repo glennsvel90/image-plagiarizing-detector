@@ -13,8 +13,11 @@ MAX_HEIGHT = 640
 RMS_THRESHOLD = 50
 
 class FindPlagiarized:
+    """ Find cropped sections of other images among files in a folder """
 
     def __init__(self, master):
+        """ Start the gui and initiate the buttons """
+        
         self.master = master
         self.master.title('Find Plagiarized Images')
         self.master.resizable(False, False)
@@ -51,11 +54,15 @@ class FindPlagiarized:
                                            variable = self.progress_var)
 
     def browse_callback(self):
+        """ bring up the list of files that should be browsed to select one that will be examined through """
+        
         path = filedialog.askdirectory(initialdir = self.path_entry.get())
         self.path_entry.delete(0, END)
         self.path_entry.insert(0, path)
 
     def search_callback(self):
+        """ Search for plagiarized photos """
+        
         self.start_time = time()
 
         try:
@@ -91,6 +98,8 @@ class FindPlagiarized:
         self.master.after(10, self.process_queue)# enables the status  bar and progressbar to continuously update as program executes
 
     def process_queue(self):
+        """ Process the images """
+        
         # get a pair of images to analyze. These pairs are tuples.
         pair = self.queue.get()
         orig_img = Image.open(os.path.join(self.path, pair[0]))
