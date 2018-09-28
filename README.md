@@ -7,7 +7,7 @@ Photographers upload their photos online, and often other people would crop a po
 
 ### Prerequisites & Packages
 
-* Python
+* Python 3
 * numpy
 * Pillow
 * scikit-image
