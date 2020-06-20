@@ -22,9 +22,7 @@ class FindPlagiarized:
         self.master.title('Find Plagiarized Images')
         self.master.resizable(False, False)
 
-        self.main_frame = ttk.Frame(self.master)
-        self.main_frame.pack(padx = 5, pady = 5) # put padding when packing
-
+       
         ttk.Label(self.main_frame, text = 'Search Directory:').grid(row = 0, column = 0, sticky = 'w')
         self.path_entry = ttk.Entry(self.main_frame, width = 54)
         self.path_entry.grid(row = 1, column = 0, sticky = 'e')
