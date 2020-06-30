@@ -179,12 +179,7 @@ class FindPlagiarized:
 
         if not self.queue.empty():
             self.master.after(10, self.process_queue)
-        else:
-            self.progressbar.pack_forget()
-            self.browse_button.state(['!disabled'])
-            self.search_button.state(['!disabled'])
-            elapsed_time = time() - self.start_time
-            self.status_var.set('Done - Elapsed Time: {0:.2f} seconds'.format(elapsed_time))
+
 
 def main():
     root = Tk()
